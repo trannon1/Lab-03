@@ -3,6 +3,7 @@
 let mainVariable = 0;
 
 const animalArray = [];
+const animalArray2 = [];
 
 function Animal(animalObj) {
   // eslint-disable-next-line camelcase
@@ -11,8 +12,14 @@ function Animal(animalObj) {
   this.description = animalObj.description;
   this.keyword = animalObj.keyword;
   this.horns = animalObj.horns;
-
-  animalArray.push(this);
+  if(mainVariable === 0){
+    this.page = "page1";
+    animalArray.push(this);
+  }
+  else{
+    this.page = "page2";
+    animalArray2.push(this);
+  }
 }
 
 //Dropdown menu function
@@ -32,50 +39,61 @@ function renderDropdown(animalArray) {
   });
 }
 
-Animal.prototype.render = function () {
-  // make a template
-  const myTemplate = $('#animal-template').html();
+// Animal.prototype.render = function () {
+  // // make a template
+  // const myTemplate = $('#animal-template').html();
 
-  // make a new section
-  const $newSection = $('<section></section>');
+  // // make a new section
+  // const $newSection = $('<section></section>');
 
-  // put the template html into my new section
-  $newSection.html(myTemplate);
+  // // put the template html into my new section
+  // $newSection.html(myTemplate);
 
-  // find the h2 and fill it with the name
-  $newSection.find('h2').text(this.title);
+  // // find the h2 and fill it with the name
+  // $newSection.find('h2').text(this.title);
 
-  // find the h3 tag and fill with horn
-  $newSection.find('h3').text('This animal has ' + this.horns + ' horn/horns.');
+  // // find the h3 tag and fill with horn
+  // $newSection.find('h3').text('This animal has ' + this.horns + ' horn/horns.');
 
-  // find the img and fill the src and alt
-  $newSection.find('img').attr('src', this.image_url);
-  $newSection.find('img').attr('alt', this.keyword);
+  // // find the img and fill the src and alt
+  // $newSection.find('img').attr('src', this.image_url);
+  // $newSection.find('img').attr('alt', this.keyword);
 
-  if(mainVariable === 0){
-    $newSection.find('img').attr('page', "page1");
-  }
-  else{
-    $newSection.find('img').attr('page', "page2");
-  }
+  // if(mainVariable === 0){
+  //   $newSection.find('img').attr('page', "page1");
+  // }
+  // else{
+  //   $newSection.find('img').attr('page', "page2");
+  // }
 
-  // find the p tag and fill with description
-  $newSection.find('p').text(this.description);
+  // // find the p tag and fill with description
+  // $newSection.find('p').text(this.description);
 
-  if(mainVariable === 0){
-    $('main[id="page-one"]').append($newSection);
-  }
-  else{
-    $('main[id="page-two"]').append($newSection);
-  }
-};
+  // if(mainVariable === 0){
+  //   $('main[id="page-one"]').append($newSection);
+  // }
+  // else{
+  //   $('main[id="page-two"]').append($newSection);
+  // }
+
+// };
+
+Animal.prototype.render = function(animal){
+  var source   = document.getElementById("animal-template").innerHTML;
+  var template = Handlebars.compile(source);
+  var context = animal;
+  return template(this);
+}
 
 //Create dropdown menu - page one data
 $(document).ready($.get('data/page-1.json', data => {
   data.forEach(animal => {
-    new Animal(animal).render();
-  });
-  $('main[id=page-one] section[id="animal-template"]').remove();
+    new Animal(animal);
+  })
+  animalArray.forEach(animal =>{
+    $('main[id=page-one]').append(animal.render());
+  })
+  // $('main[id=page-one] section[id="animal-template"]').remove();
   renderDropdown(data);
 })
 );
@@ -84,10 +102,13 @@ $(document).ready($.get('data/page-1.json', data => {
 $(document).ready($.get('data/page-2.json', data => {
   mainVariable = 1;
   data.forEach(animal => {
-    new Animal(animal).render();
-  });
-  $('main[id=page-two] section[id="animal-template"]').remove();
-  $('main[id="page-two"] section').hide();
+    new Animal(animal);
+  })
+  animalArray2.forEach(animal =>{
+    $('main[id=page-two]').append(animal.render());
+  })
+  // $('main[id=page-two] section[id="animal-template"]').remove();
+  // $('main[id="page-two"] section').hide();
 })
 );
 
