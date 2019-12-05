@@ -66,11 +66,9 @@ $(document).ready($.get('data/page-1.json', data => {
 //Filters animals via selections
 $(document).ready($('#myselection').on('change', function (event) {
     $("section").hide();
-        animalArray.forEach(animal => {
-          if (this.value === animal.keyword) {
-            $('.$(currentSelection)').show();
-          }
-        });
+    // $(`section:contains(${this.value})`).show();
+    $(`img[alt=${this.value}]`).parent().show();
+    // console.log(this.value);
       })
 );
 
