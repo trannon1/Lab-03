@@ -1,5 +1,7 @@
 'use strict';
 
+let mainVariable = 0;
+
 const animalArray = [];
 
 function Animal(animalObj) {
@@ -52,7 +54,12 @@ Animal.prototype.render = function () {
   // find the p tag and fill with description
   $newSection.find('p').text(this.description);
 
-  $('main').append($newSection);
+  if(mainVariable === 0){
+    $('main[id="page-one"]').append($newSection);
+  }
+  else{
+    $('main[id="page-two"]').append($newSection);
+  }
 };
 
 //Create dropdown menu - page one data
@@ -65,25 +72,35 @@ $(document).ready($.get('data/page-1.json', data => {
 );
 
 // page two data
-$(document).ready($.get('data/page-2.json'), data => {
+$(document).ready($.get('data/page-2.json', data => {
+  mainVariable = 1;
   data.forEach(animal => {
     new Animal(animal).render();
-    $('main[id="page-two"] section').hide();
   });
-});
+  // $('main[id="page-two"] section').hide();
+})
+);
 
 // page one button
-$('button:first-of-type').on('click', $.get('data/page-1.json'), data => {
-  renderDropdown(data);
+$('button:first-of-type').on('click', function(){
+  ($.get('data/page-1.json'), data => {
+    renderDropdown(data);
+    });
   $('section').hide();
   $('main[id="page-one"] section').show();
 });
 
 // page two button
-$('button:last-of-type').on('click', $.get('data/page-2.json'), data => {
+$('button:last-of-type').on('click', function(){
+  ($.get('data/page-2.json'), data => {
   renderDropdown(data);
+  });
   $('section').hide();
   $('main[id="page-two"] section').show();
+  // data.forEach(animal => {
+  //   console.log(animal);
+  // });
+  // console.log("hello");
 });
 
 //Filters animals via selections
