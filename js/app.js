@@ -75,6 +75,7 @@ $(document).ready($.get('data/page-1.json', data => {
   data.forEach(animal => {
     new Animal(animal).render();
   });
+  $('main[id=page-one] section[id="animal-template"]').remove();
   renderDropdown(data);
 })
 );
@@ -85,6 +86,7 @@ $(document).ready($.get('data/page-2.json', data => {
   data.forEach(animal => {
     new Animal(animal).render();
   });
+  $('main[id=page-two] section[id="animal-template"]').remove();
   $('main[id="page-two"] section').hide();
 })
 );
