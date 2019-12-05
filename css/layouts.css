@@ -1,12 +1,17 @@
+main {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 section {
-    float: left;
-    margin: 40px;
+    margin: auto;
+    width: 300px;
+    overflow: hidden;
+    margin: 15px;
   }
   
   img {
-    height: 200px;
+    height: 150px;
     border: 2px solid black;
   }
-
-
   

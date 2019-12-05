@@ -1,0 +1,30 @@
+header {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+select {
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+button {
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+@media all and (min-width: 200px) {
+  section {
+    width: 50%
+  }
+}
+
+@media all and (min-width: 780px) {
+  section {
+    width: 30%;
+  }
+}
