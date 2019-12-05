@@ -85,7 +85,7 @@ $(document).ready($.get('data/page-2.json', data => {
   data.forEach(animal => {
     new Animal(animal).render();
   });
-  // $('main[id="page-two"] section').hide();
+  $('main[id="page-two"] section').hide();
 })
 );
 
