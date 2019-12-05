@@ -3,6 +3,7 @@
 const animalArray = [];
 
 function Animal(animalObj) {
+  // eslint-disable-next-line camelcase
   this.image_url = animalObj.image_url;
   this.title = animalObj.title;
   this.description = animalObj.description;
@@ -13,19 +14,19 @@ function Animal(animalObj) {
 }
 
 //Dropdown menu function
-function renderDropdown (animalArray){
+function renderDropdown(animalArray) {
 
-    const tempArray = [];
-    animalArray.forEach(animal => {
-        if (!tempArray.includes(animal.keyword)){
-            tempArray.push(animal.keyword);
-        }
-    })
-    tempArray.forEach(keyword => {
-        const $newSection = $('<option></option>');
-        $newSection.text(keyword);
-        $('optgroup').append($newSection);
-    })
+  const tempArray = [];
+  animalArray.forEach(animal => {
+    if (!tempArray.includes(animal.keyword)) {
+      tempArray.push(animal.keyword);
+    }
+  });
+  tempArray.forEach(keyword => {
+    const $newSection = $('<option></option>');
+    $newSection.text(keyword);
+    $('optgroup').append($newSection);
+  });
 }
 
 Animal.prototype.render = function () {
@@ -52,9 +53,9 @@ Animal.prototype.render = function () {
   $newSection.find('p').text(this.description);
 
   $('main').append($newSection);
-}
+};
 
-//Create dropdown menu
+//Create dropdown menu - page one data
 $(document).ready($.get('data/page-1.json', data => {
   data.forEach(animal => {
     new Animal(animal).render();
@@ -63,12 +64,34 @@ $(document).ready($.get('data/page-1.json', data => {
 })
 );
 
+// page two data
+$(document).ready($.get('data/page-2.json'), data => {
+  data.forEach(animal => {
+    new Animal(animal).render();
+    $('main[id="page-two"] section').hide();
+  });
+});
+
+// page one button
+$('button:first-of-type').on('click', $.get('data/page-1.json'), data => {
+  renderDropdown(data);
+  $('section').hide();
+  $('main[id="page-one"] section').show();
+});
+
+// page two button
+$('button:last-of-type').on('click', $.get('data/page-2.json'), data => {
+  renderDropdown(data);
+  $('section').hide();
+  $('main[id="page-two"] section').show();
+});
+
 //Filters animals via selections
-$(document).ready($('#myselection').on('change', function (event) {
-    $("section").hide();
-    // $(`section:contains(${this.value})`).show();
-    $(`img[alt=${this.value}]`).parent().show();
-    // console.log(this.value);
-      })
+$(document).ready($('#myselection').on('change', function () {
+  $('section').hide();
+  // $(`section:contains(${this.value})`).show();
+  $(`img[alt=${this.value}]`).parent().show();
+  // console.log(this.value);
+})
 );
 
